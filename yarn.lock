@@ -2956,8 +2956,8 @@ __metadata:
   linkType: hard
 
 "@oclif/plugin-plugins@npm:^5":
-  version: 5.4.38
-  resolution: "@oclif/plugin-plugins@npm:5.4.38"
+  version: 5.4.39
+  resolution: "@oclif/plugin-plugins@npm:5.4.39"
   dependencies:
     "@oclif/core": ^4.3.0
     ansis: ^3.17.0
@@ -2970,7 +2970,7 @@ __metadata:
     validate-npm-package-name: ^5.0.1
     which: ^4.0.0
     yarn: ^1.22.22
-  checksum: a5db99c46ba5fc1806d343084b15798ff57fa37154be6558491ce6da9a419f3586a1354a20b49d7f5af8f2fa8990c05288c912ed477f04aa0445919dd7f5cfd7
+  checksum: 2e07acb9dbc2b9f96b0bc492409cf4a3970a34a457ea3d4efda4caef68ae316342c67a5c3ea796e30f6cf822a4c2897759ed021208c22439bdc34e6934cebb70
   languageName: node
   linkType: hard
 
@@ -6465,9 +6465,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001702, caniuse-lite@npm:^1.0.30001718":
-  version: 1.0.30001720
-  resolution: "caniuse-lite@npm:1.0.30001720"
-  checksum: 97b9f9de842595ff9674001abb9c5bc093c03bb985d481ed97617ea48fc248bfb2cc1f1afe19da2bf20016f28793e495fa2f339e22080d8da3c9714fb7950926
+  version: 1.0.30001721
+  resolution: "caniuse-lite@npm:1.0.30001721"
+  checksum: 1f1e1f5f070f97ee83a08601709413300957be624790a8f7b3aebd5746d648e8d50be4ef9572a50281198b2f7acc63fdfc1a0bc04c23bbffba0ab4b3c69d4b76
   languageName: node
   linkType: hard
 
@@ -7585,9 +7585,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.160":
-  version: 1.5.162
-  resolution: "electron-to-chromium@npm:1.5.162"
-  checksum: 777bd278da53730a280166237a9458d6e00bb5c55014146d44fceb74d75fab2149b5484be6f857e3943ba0f6162618c1a028c362950730eeced6921e5c158f6a
+  version: 1.5.163
+  resolution: "electron-to-chromium@npm:1.5.163"
+  checksum: ff00117b1823cdb5971e5390d67db3689f5169fdab55d2536939f45ccc0a8ee7470fd6c1411d4cc6095308e4cd4468c45ebf5655301f234187d4898858fe8b40
   languageName: node
   linkType: hard
 
@@ -11867,6 +11867,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^0.513.0":
+  version: 0.513.0
+  resolution: "lucide-react@npm:0.513.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 76eeae8637afc4ac9ac95f92e2ad8a335151834a6a748ca581dc8f2999a0059e6b60257a47cfae6789db5c6ee4c288a4e68410b302f4227bda86d2807a093097
+  languageName: node
+  linkType: hard
+
 "main-event@npm:^1.0.1":
   version: 1.0.1
   resolution: "main-event@npm:1.0.1"
@@ -14130,6 +14139,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:^5.5.0":
+  version: 5.5.0
+  resolution: "react-icons@npm:5.5.0"
+  peerDependencies:
+    react: "*"
+  checksum: cbd74f4b7982e6e18d59798a6b578268c8eb0909d78d87bcf9b25f99b3e544fd189a76551cb5e770d17f154a60b668551aee108aaf8471309b23f7af3b2c5b07
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -14699,6 +14717,8 @@ __metadata:
   dependencies:
     husky: ~9.1.6
     lint-staged: ~13.2.2
+    lucide-react: ^0.513.0
+    react-icons: ^5.5.0
   languageName: unknown
   linkType: soft
 
@@ -17496,9 +17516,9 @@ __metadata:
   linkType: hard
 
 "zod@npm:^3.22.4":
-  version: 3.25.49
-  resolution: "zod@npm:3.25.49"
-  checksum: 7432d7ef54fc803fea121b20930a9d528c54d244c8c6549447b75443a3587b94745c5add5ac8550c9a77e0c7cda3ec3d6aff83e33adfc1dc9d34a266856dace8
+  version: 3.25.51
+  resolution: "zod@npm:3.25.51"
+  checksum: 37ff0e4ef274d4a5d46882d351797f609d14decae16af46692295a68a0f34f4895bd3233ce2514027d08f7a77abcc8b47d005dba0a17bfe4f7e8410f99595441
   languageName: node
   linkType: hard
 
