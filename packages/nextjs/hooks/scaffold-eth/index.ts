@@ -1,6 +1,5 @@
 export * from "./useAnimationConfig";
 export * from "./useContractLogs";
-export * from "./useCopyToClipboard";
 export * from "./useDeployedContractInfo";
 export * from "./useFetchBlocks";
 export * from "./useInitializeNativeCurrencyPrice";
