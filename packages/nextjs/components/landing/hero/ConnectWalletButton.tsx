@@ -6,6 +6,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Loader2 } from "lucide-react";
 import { FaWallet } from "react-icons/fa";
 
+/* eslint-disable @next/next/no-img-element */
+
+/* eslint-disable @next/next/no-img-element */
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -53,7 +56,7 @@ const ConnectWalletButton: React.FC = () => {
                     <div className="absolute right-0 bottom-0 h-[2px] w-[12px] bg-white rounded-bl-sm" />
                     <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white" />
 
-                    {isConnecting ? <Loader2 className="animate-spin w-5 h-5" /> : <FaWallet className="text-lg" />}
+                    {isConnecting ? <Loader2 className="animate-spin w-5 h-5" /> : <FaWallet size={20} />}
                     {isConnecting ? "Connecting..." : "Connect Wallet"}
                   </button>
                 );
