@@ -1,14 +1,14 @@
-import Footer from "~~/components/Footer";
-import Header from "~~/components/Header";
+// import Footer from "~~/components/Footer";
+// import Header from "~~/components/Header";
 
 export default function LandingPageLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="bg-black">
         <div>
-          <Header />
+          {/* <Header /> */}
           <main className="relative flex flex-col flex-1">{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </>
