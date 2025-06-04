@@ -6,7 +6,7 @@ import { AddressLogsTab } from "./AddressLogsTab";
 import { AddressStorageTab } from "./AddressStorageTab";
 import { PaginationButton } from "./PaginationButton";
 import { TransactionsTable } from "./TransactionsTable";
-import { createPublicClient, http } from "viem";
+import { createPublicClient, getAddress, http } from "viem";
 import { hardhat } from "viem/chains";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 
@@ -32,7 +32,7 @@ export const ContractTabs = ({ address, contractData }: PageProps) => {
 
   useEffect(() => {
     const checkIsContract = async () => {
-      const contractCode = await publicClient.getBytecode({ address: address });
+      const contractCode = await publicClient.getBytecode({ address: getAddress(address) });
       setIsContract(contractCode !== undefined && contractCode !== "0x");
     };
 
@@ -51,33 +51,23 @@ export const ContractTabs = ({ address, contractData }: PageProps) => {
   return (
     <>
       {isContract && (
-        <div role="tablist" className="tabs tabs-lift">
+        <div className="tabs tabs-lifted w-min">
           <button
-            role="tab"
             className={`tab ${activeTab === "transactions" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("transactions")}
           >
             Transactions
           </button>
-          <button
-            role="tab"
-            className={`tab ${activeTab === "code" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("code")}
-          >
+          <button className={`tab ${activeTab === "code" ? "tab-active" : ""}`} onClick={() => setActiveTab("code")}>
             Code
           </button>
           <button
-            role="tab"
             className={`tab  ${activeTab === "storage" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("storage")}
           >
             Storage
           </button>
-          <button
-            role="tab"
-            className={`tab  ${activeTab === "logs" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("logs")}
-          >
+          <button className={`tab  ${activeTab === "logs" ? "tab-active" : ""}`} onClick={() => setActiveTab("logs")}>
             Logs
           </button>
         </div>
@@ -95,8 +85,8 @@ export const ContractTabs = ({ address, contractData }: PageProps) => {
       {activeTab === "code" && contractData && (
         <AddressCodeTab bytecode={contractData.bytecode} assembly={contractData.assembly} />
       )}
-      {activeTab === "storage" && <AddressStorageTab address={address} />}
-      {activeTab === "logs" && <AddressLogsTab address={address} />}
+      {activeTab === "storage" && <AddressStorageTab address={getAddress(address)} />}
+      {activeTab === "logs" && <AddressLogsTab address={getAddress(address)} />}
     </>
   );
 };
