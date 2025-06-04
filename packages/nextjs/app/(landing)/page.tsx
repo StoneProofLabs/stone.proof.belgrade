@@ -1,7 +1,7 @@
 "use client";
 
 // import { useEffect, useState } from "react";
-import Faq from "../../components/landing/Faq";
+import Faq from "~~/components/landing/Faq";
 import type { NextPage } from "next";
 import CallToAction from "~~/components/landing/CallToAction";
 import Ecosystem from "~~/components/landing/Ecosystem";
