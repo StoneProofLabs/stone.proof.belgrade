@@ -1,104 +1,144 @@
 "use client";
 
-import React, { useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { hardhat } from "viem/chains";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
+import type React from "react";
+import { useEffect, useState } from "react";
+import ContactUsButton from "./landing/Header/ContactUsButton";
+import StoneProof from "./landing/Header/StoneProof";
+import { Menu, X } from "lucide-react";
 
-type HeaderMenuLink = {
-  label: string;
+interface NavLink {
+  name: string;
   href: string;
-  icon?: React.ReactNode;
-};
+}
 
-export const menuLinks: HeaderMenuLink[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
-
-  {
-    label: "Debug Contracts",
-    href: "/debug",
-    icon: <BugAntIcon className="h-4 w-4" />,
-  },
+const navLinks: NavLink[] = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/services" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Blog", href: "/blog" },
 ];
 
-export const HeaderMenuLinks = () => {
-  const pathname = usePathname();
+const Header: React.FC = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Add effect to prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      // Add styles to body to prevent scrolling
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      // Restore scroll position and remove fixed positioning
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+  }, [mobileMenuOpen]);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   return (
-    <>
-      {menuLinks.map(({ label, href, icon }) => {
-        const isActive = pathname === href;
-        return (
-          <li key={href}>
-            <Link
-              href={href}
-              passHref
-              className={`${
-                isActive ? "bg-secondary shadow-md" : ""
-              } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
-            >
-              {icon}
-              <span>{label}</span>
-            </Link>
-          </li>
-        );
-      })}
-    </>
-  );
-};
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-[#060910]/80 backdrop-blur-md shadow-lg" : "bg-[#060910]"
+      }`}
+    >
+      <div className="container mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
+        {/* Logo */}
+        <StoneProof />
 
-/**
- * Site header
- */
-export const Header = () => {
-  const { targetNetwork } = useTargetNetwork();
-  const isLocalNetwork = targetNetwork.id === hardhat.id;
-
-  const burgerMenuRef = useRef<HTMLDetailsElement>(null);
-  useOutsideClick(burgerMenuRef, () => {
-    burgerMenuRef?.current?.removeAttribute("open");
-  });
-
-  return (
-    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
-      <div className="navbar-start w-auto lg:w-1/2">
-        <details className="dropdown" ref={burgerMenuRef}>
-          <summary className="ml-1 btn btn-ghost lg:hidden hover:bg-transparent">
-            <Bars3Icon className="h-1/2" />
-          </summary>
-          <ul
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow-sm bg-base-100 rounded-box w-52"
-            onClick={() => {
-              burgerMenuRef?.current?.removeAttribute("open");
-            }}
-          >
-            <HeaderMenuLinks />
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex flex-1 justify-center">
+          <ul className="flex gap-2 lg:gap-10">
+            {navLinks.map(link => (
+              <li key={link.name}>
+                <a
+                  href={link.href}
+                  className="text-white text-xs lg:text-base opacity-70 hover:text-primary hover:opacity-100 transition-colors duration-200 whitespace-nowrap px-1 lg:px-0"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
           </ul>
-        </details>
-        <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
-          </div>
-        </Link>
-        <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
-          <HeaderMenuLinks />
-        </ul>
+        </nav>
+
+        {/* Mobile menu button */}
+        <button
+          className="lg:hidden text-white fixed top-4 right-4 z-50 transition-transform duration-300"
+          onClick={toggleMobileMenu}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          style={{ transform: mobileMenuOpen ? "rotate(90deg)" : "rotate(0deg)" }}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Contact Us button - hidden on mobile and small tablets */}
+        <div className="hidden lg:block">
+          <ContactUsButton />
+        </div>
       </div>
-      <div className="navbar-end grow mr-4">
-        <RainbowKitCustomConnectButton />
-        {isLocalNetwork && <FaucetButton />}
+
+      {/* Mobile Navigation Overlay */}
+      <div
+        className={`fixed inset-0 bg-[#060910] z-40 flex flex-col items-center justify-center lg:hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        <div
+          className={`w-full h-full flex flex-col items-center justify-center transition-all duration-300 ${
+            mobileMenuOpen ? "translate-y-0" : "translate-y-4"
+          }`}
+        >
+          <ul className="flex flex-col gap-6 text-center">
+            {navLinks.map((link, index) => (
+              <li
+                key={link.name}
+                className={`transition-all duration-300 ${
+                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                }`}
+                style={{ transitionDelay: `${index * 50}ms` }}
+              >
+                <a
+                  href={link.href}
+                  className="text-white text-lg opacity-70 hover:opacity-100 transition-colors duration-200"
+                  onClick={toggleMobileMenu}
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+            <li
+              className={`mt-4 transition-all duration-300 ${
+                mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`}
+              style={{ transitionDelay: `${navLinks.length * 50}ms` }}
+            >
+              <ContactUsButton />
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
+
+export default Header;

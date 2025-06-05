@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { NetworkOptions } from "./NetworkOptions";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { getAddress } from "viem";
 import { Address } from "viem";
 import { useDisconnect } from "wagmi";
@@ -13,7 +14,7 @@ import {
   QrCodeIcon,
 } from "@heroicons/react/24/outline";
 import { BlockieAvatar, isENS } from "~~/components/scaffold-eth";
-import { useCopyToClipboard, useOutsideClick } from "~~/hooks/scaffold-eth";
+import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { getTargetNetworks } from "~~/utils/scaffold-eth";
 
 const allowedNetworks = getTargetNetworks();
@@ -34,56 +35,68 @@ export const AddressInfoDropdown = ({
   const { disconnect } = useDisconnect();
   const checkSumAddress = getAddress(address);
 
-  const { copyToClipboard: copyAddressToClipboard, isCopiedToClipboard: isAddressCopiedToClipboard } =
-    useCopyToClipboard();
+  const [addressCopied, setAddressCopied] = useState(false);
+
   const [selectingNetwork, setSelectingNetwork] = useState(false);
   const dropdownRef = useRef<HTMLDetailsElement>(null);
-
   const closeDropdown = () => {
     setSelectingNetwork(false);
     dropdownRef.current?.removeAttribute("open");
   };
-
   useOutsideClick(dropdownRef, closeDropdown);
 
   return (
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end leading-3">
-        <summary className="btn btn-secondary btn-sm pl-0 pr-2 shadow-md dropdown-toggle gap-0 h-auto!">
+        <summary tabIndex={0} className="btn btn-secondary btn-sm pl-0 pr-2 shadow-md dropdown-toggle gap-0 !h-auto">
           <BlockieAvatar address={checkSumAddress} size={30} ensImage={ensAvatar} />
           <span className="ml-2 mr-1">
             {isENS(displayName) ? displayName : checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4)}
           </span>
           <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0" />
         </summary>
-        <ul className="dropdown-content menu z-2 p-2 mt-2 shadow-center shadow-accent bg-base-200 rounded-box gap-1">
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu z-[2] p-2 mt-2 shadow-center shadow-accent bg-base-200 rounded-box gap-1"
+        >
           <NetworkOptions hidden={!selectingNetwork} />
           <li className={selectingNetwork ? "hidden" : ""}>
-            <div
-              className="h-8 btn-sm rounded-xl! flex gap-3 py-3 cursor-pointer"
-              onClick={() => copyAddressToClipboard(checkSumAddress)}
-            >
-              {isAddressCopiedToClipboard ? (
-                <>
-                  <CheckCircleIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <DocumentDuplicateIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copy address</span>
-                </>
-              )}
-            </div>
+            {addressCopied ? (
+              <div className="btn-sm !rounded-xl flex gap-3 py-3">
+                <CheckCircleIcon
+                  className="text-xl font-normal h-6 w-4 cursor-pointer ml-2 sm:ml-0"
+                  aria-hidden="true"
+                />
+                <span className=" whitespace-nowrap">Copy address</span>
+              </div>
+            ) : (
+              <CopyToClipboard
+                text={checkSumAddress}
+                onCopy={() => {
+                  setAddressCopied(true);
+                  setTimeout(() => {
+                    setAddressCopied(false);
+                  }, 800);
+                }}
+              >
+                <div className="btn-sm !rounded-xl flex gap-3 py-3">
+                  <DocumentDuplicateIcon
+                    className="text-xl font-normal h-6 w-4 cursor-pointer ml-2 sm:ml-0"
+                    aria-hidden="true"
+                  />
+                  <span className=" whitespace-nowrap">Copy address</span>
+                </div>
+              </CopyToClipboard>
+            )}
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
-            <label htmlFor="qrcode-modal" className="h-8 btn-sm rounded-xl! flex gap-3 py-3">
+            <label htmlFor="qrcode-modal" className="btn-sm !rounded-xl flex gap-3 py-3">
               <QrCodeIcon className="h-6 w-4 ml-2 sm:ml-0" />
               <span className="whitespace-nowrap">View QR Code</span>
             </label>
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
-            <button className="h-8 btn-sm rounded-xl! flex gap-3 py-3" type="button">
+            <button className="menu-item btn-sm !rounded-xl flex gap-3 py-3" type="button">
               <ArrowTopRightOnSquareIcon className="h-6 w-4 ml-2 sm:ml-0" />
               <a
                 target="_blank"
@@ -98,7 +111,7 @@ export const AddressInfoDropdown = ({
           {allowedNetworks.length > 1 ? (
             <li className={selectingNetwork ? "hidden" : ""}>
               <button
-                className="h-8 btn-sm rounded-xl! flex gap-3 py-3"
+                className="btn-sm !rounded-xl flex gap-3 py-3"
                 type="button"
                 onClick={() => {
                   setSelectingNetwork(true);
@@ -110,7 +123,7 @@ export const AddressInfoDropdown = ({
           ) : null}
           <li className={selectingNetwork ? "hidden" : ""}>
             <button
-              className="menu-item text-error h-8 btn-sm rounded-xl! flex gap-3 py-3"
+              className="menu-item text-error btn-sm !rounded-xl flex gap-3 py-3"
               type="button"
               onClick={() => disconnect()}
             >
