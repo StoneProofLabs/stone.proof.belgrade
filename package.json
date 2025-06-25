@@ -50,11 +50,19 @@
     "verify": "yarn hardhat:verify"
   },
   "devDependencies": {
+    "@types/recharts": "^2.0.1",
     "husky": "~9.1.6",
     "lint-staged": "~13.2.2"
   },
   "packageManager": "yarn@3.2.3",
   "engines": {
     "node": ">=20.18.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-progress": "^1.1.7",
+    "lucide-react": "^0.513.0",
+    "react-icons": "^5.5.0",
+    "recharts": "^2.15.3",
+    "tailwind-merge": "^3.3.0"
   }
 }
